@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#080b10" />
+    <meta
+      name="description"
+      content="Praxisleitfaden: Projekte und Aufgaben zwischen Claude Code, Codex und anderen Coding-Agents übergeben."
+    />
+    <title>Claude Code ↔ Codex — Übergabe-Leitfaden</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #080b10;
+        --surface: #0f141d;
+        --surface-2: #151c27;
+        --surface-3: #1a2431;
+        --text: #f3f6fa;
+        --muted: #9daaba;
+        --line: #283444;
+        --cyan: #62e4ff;
+        --violet: #b9a4ff;
+        --lime: #b9f45f;
+        --amber: #ffc969;
+        --danger: #ff8c8c;
+        --max: 1180px;
+        --radius: 20px;
+        --shadow: 0 20px 60px rgb(0 0 0 / 30%);
+        --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 96px;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 12% 4%, rgb(98 228 255 / 11%), transparent 29rem),
+          radial-gradient(circle at 88% 18%, rgb(185 164 255 / 10%), transparent 26rem),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        line-height: 1.65;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          linear-gradient(rgb(255 255 255 / 2%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(255 255 255 / 2%) 1px, transparent 1px);
+        background-size: 42px 42px;
+        content: "";
+        mask-image: linear-gradient(to bottom, black, transparent 65%);
+      }
+
+      a {
+        color: var(--cyan);
+        text-underline-offset: 0.2em;
+      }
+
+      a:hover {
+        color: #baf4ff;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--cyan);
+        outline-offset: 4px;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 20;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: var(--text);
+        color: var(--bg);
+        font-weight: 800;
+        transform: translateY(-180%);
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid rgb(255 255 255 / 7%);
+        background: rgb(8 11 16 / 78%);
+        backdrop-filter: blur(18px);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: min(calc(100% - 32px), var(--max));
+        min-height: 72px;
+        margin: 0 auto;
+        gap: 24px;
+      }
+
+      .brand {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        gap: 10px;
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 0.9rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border: 1px solid rgb(98 228 255 / 45%);
+        border-radius: 9px;
+        background: rgb(98 228 255 / 10%);
+        color: var(--cyan);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+
+      .nav a {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.77rem;
+        text-decoration: none;
+      }
+
+      .nav a:hover {
+        color: var(--text);
+      }
+
+      main {
+        overflow: hidden;
+      }
+
+      .wrap {
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        min-height: 710px;
+        align-items: center;
+        padding: 88px 0 74px;
+      }
+
+      .eyebrow,
+      .section-kicker,
+      .pill,
+      .label {
+        font-family: var(--mono);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        gap: 9px;
+        margin-bottom: 22px;
+        color: var(--cyan);
+      }
+
+      .eyebrow::before {
+        width: 34px;
+        height: 1px;
+        background: currentcolor;
+        content: "";
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 950px;
+        margin-bottom: 26px;
+        font-size: clamp(3rem, 8vw, 7.6rem);
+        font-weight: 820;
+        letter-spacing: -0.065em;
+        line-height: 0.93;
+      }
+
+      .gradient {
+        background: linear-gradient(110deg, var(--cyan), var(--violet) 55%, var(--lime));
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-lead {
+        max-width: 760px;
+        margin-bottom: 34px;
+        color: #bdc7d3;
+        font-size: clamp(1.05rem, 2vw, 1.28rem);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 0 18px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: var(--surface-2);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition:
+          transform 160ms ease,
+          border-color 160ms ease,
+          background 160ms ease;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        border-color: #4d6076;
+        background: #1b2634;
+        color: var(--text);
+        transform: translateY(-2px);
+      }
+
+      .button.primary {
+        border-color: var(--cyan);
+        background: var(--cyan);
+        color: #071016;
+      }
+
+      .button.primary:hover {
+        background: #a7f1ff;
+      }
+
+      .hero-note {
+        display: flex;
+        max-width: 690px;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 34px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .hero-note strong {
+        color: var(--lime);
+        font-family: var(--mono);
+      }
+
+      .section {
+        padding: 90px 0;
+      }
+
+      .section-kicker {
+        margin-bottom: 12px;
+        color: var(--violet);
+      }
+
+      h2 {
+        max-width: 820px;
+        margin-bottom: 18px;
+        font-size: clamp(2rem, 5vw, 4.2rem);
+        letter-spacing: -0.045em;
+        line-height: 1.02;
+      }
+
+      .section-intro {
+        max-width: 760px;
+        margin-bottom: 38px;
+        color: var(--muted);
+        font-size: 1.04rem;
+      }
+
+      .route-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .route-card,
+      .panel,
+      .step,
+      .tip-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: linear-gradient(145deg, rgb(255 255 255 / 3%), transparent 60%), var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .route-card {
+        position: relative;
+        min-height: 330px;
+        padding: clamp(24px, 4vw, 40px);
+        overflow: hidden;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .route-card:hover {
+        border-color: #42546a;
+        transform: translateY(-3px);
+      }
+
+      .route-card::after {
+        position: absolute;
+        right: -50px;
+        bottom: -90px;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: var(--card-glow);
+        filter: blur(20px);
+        opacity: 0.12;
+        content: "";
+      }
+
+      .route-card.official {
+        --card-glow: var(--cyan);
+      }
+
+      .route-card.manual {
+        --card-glow: var(--violet);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 36px;
+        padding: 6px 10px;
+        border: 1px solid currentcolor;
+        border-radius: 999px;
+      }
+
+      .official .pill {
+        color: var(--lime);
+      }
+
+      .manual .pill {
+        color: var(--amber);
+      }
+
+      .route {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        font-family: var(--mono);
+        font-size: clamp(1.25rem, 3vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .route .arrow {
+        color: var(--cyan);
+      }
+
+      .route-card p {
+        max-width: 54ch;
+        color: var(--muted);
+      }
+
+      .route-card .inline-link {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        margin-top: 10px;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .callout {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: start;
+        gap: 16px;
+        margin-top: 18px;
+        padding: 20px 22px;
+        border: 1px solid rgb(255 201 105 / 28%);
+        border-radius: 16px;
+        background: rgb(255 201 105 / 6%);
+      }
+
+      .callout-icon {
+        display: grid;
+        width: 31px;
+        height: 31px;
+        place-items: center;
+        border-radius: 9px;
+        background: rgb(255 201 105 / 15%);
+        color: var(--amber);
+        font-family: var(--mono);
+        font-weight: 900;
+      }
+
+      .callout p {
+        margin: 0;
+        color: #c9c1b2;
+      }
+
+      .callout strong {
+        color: var(--text);
+      }
+
+      .table-shell {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: auto;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+      }
+
+      th,
+      td {
+        padding: 20px 22px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      thead th {
+        position: sticky;
+        top: 0;
+        background: #161d28;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      tbody tr {
+        transition: background 150ms ease;
+      }
+
+      tbody tr:hover {
+        background: rgb(98 228 255 / 4%);
+      }
+
+      td:first-child {
+        width: 31%;
+        color: var(--text);
+        font-weight: 750;
+      }
+
+      code,
+      .path {
+        font-family: var(--mono);
+      }
+
+      .path {
+        display: inline-block;
+        padding: 3px 7px;
+        border: 1px solid #313e4e;
+        border-radius: 7px;
+        background: #080c12;
+        color: #dce5ef;
+        font-size: 0.84rem;
+      }
+
+      .workflow {
+        position: relative;
+        display: grid;
+        gap: 14px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 18px;
+        padding: 25px;
+      }
+
+      .step-number {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        border: 1px solid rgb(98 228 255 / 30%);
+        border-radius: 15px;
+        background: rgb(98 228 255 / 8%);
+        color: var(--cyan);
+        font-family: var(--mono);
+        font-weight: 900;
+      }
+
+      .step h3 {
+        margin-bottom: 7px;
+        font-size: 1.12rem;
+      }
+
+      .step p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .mini-code {
+        margin-top: 13px;
+        padding: 13px 15px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #080c12;
+        color: #cfdae6;
+        font-family: var(--mono);
+        font-size: 0.83rem;
+        overflow-wrap: anywhere;
+      }
+
+      .prompt-shell {
+        border: 1px solid #354557;
+        border-radius: var(--radius);
+        background: #080c12;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .section-prompt {
+        margin-top: 18px;
+      }
+
+      .prompt-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 15px 17px;
+        border-bottom: 1px solid var(--line);
+        background: #121924;
+      }
+
+      .prompt-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+      }
+
+      .dots {
+        display: inline-flex;
+        gap: 5px;
+      }
+
+      .dots i {
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #405064;
+      }
+
+      .copy-button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        gap: 7px;
+        padding: 0 12px;
+        border: 1px solid #3a4a5c;
+        border-radius: 9px;
+        background: #1a2330;
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 0.74rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .copy-button:hover {
+        border-color: var(--cyan);
+        color: var(--cyan);
+      }
+
+      pre {
+        max-height: 760px;
+        margin: 0;
+        padding: clamp(20px, 4vw, 34px);
+        overflow: auto;
+        color: #dbe5ef;
+        font-family: var(--mono);
+        font-size: clamp(0.78rem, 1.4vw, 0.91rem);
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
+
+      .tips-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .tip-card {
+        padding: 24px;
+      }
+
+      .tip-card .label {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: var(--cyan);
+      }
+
+      .tip-card h3 {
+        margin-bottom: 9px;
+        font-size: 1.08rem;
+      }
+
+      .tip-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin: 32px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 17px 18px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: rgb(255 255 255 / 2%);
+        color: #c5cfda;
+      }
+
+      .checklist li::before {
+        display: grid;
+        flex: 0 0 auto;
+        width: 22px;
+        height: 22px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgb(185 244 95 / 11%);
+        color: var(--lime);
+        content: "✓";
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        font-weight: 900;
+      }
+
+      footer {
+        padding: 30px 0 52px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.83rem;
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .status {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 20;
+        padding: 11px 15px;
+        border: 1px solid rgb(185 244 95 / 40%);
+        border-radius: 11px;
+        background: #132015;
+        color: var(--lime);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        font-weight: 800;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease;
+        pointer-events: none;
+      }
+
+      .status.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 850px) {
+        .nav {
+          display: none;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 74px 0 58px;
+        }
+
+        .route-grid,
+        .tips-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .checklist {
+          grid-template-columns: 1fr;
+        }
+
+        .section {
+          padding: 68px 0;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .topbar-inner,
+        .wrap {
+          width: min(calc(100% - 22px), var(--max));
+        }
+
+        h1 {
+          font-size: clamp(2.7rem, 15vw, 4.8rem);
+        }
+
+        .step {
+          grid-template-columns: 1fr;
+        }
+
+        .prompt-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .copy-button {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      @media (prefers-contrast: more) {
+        :root {
+          --muted: #cbd4de;
+          --line: #586a7d;
+        }
+
+        .button,
+        .copy-button {
+          border-width: 2px;
+        }
+      }
+
+      @media (forced-colors: active) {
+        .gradient {
+          color: CanvasText;
+        }
+
+        .route-card,
+        .panel,
+        .step,
+        .tip-card,
+        .prompt-shell,
+        .table-shell {
+          border-color: CanvasText;
+        }
+      }
+
+      @media print {
+        :root {
+          color-scheme: light;
+        }
+
+        body {
+          background: white;
+          color: #111;
+        }
+
+        body::before,
+        .topbar,
+        .hero-actions,
+        .copy-button,
+        .status {
+          display: none;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 30px 0;
+        }
+
+        .section {
+          padding: 30px 0;
+        }
+
+        .route-card,
+        .panel,
+        .step,
+        .tip-card,
+        .prompt-shell,
+        .table-shell {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+
+        .gradient {
+          color: #111;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">↔</span>
+          Agent Handoff Guide
+        </a>
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="#wege">Die zwei Wege</a>
+          <a href="#vergleich">Vergleich</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#prompt">Prompt</a>
+          <a href="#checkliste">Checkliste</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inhalt">
+      <section class="hero" id="top">
+        <div class="wrap">
+          <div class="eyebrow">Praxisleitfaden · Claude Code & Codex</div>
+          <h1>Aufgaben sauber <span class="gradient">übergeben.</span></h1>
+          <p class="hero-lead">
+            So wechselst du in einem laufenden Projekt zwischen Claude Code, Codex und anderen
+            Coding-Agents — ohne Kontextverlust, doppelte Regeln oder chaotische Konfiguration.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#prompt">Adapter-Prompt kopieren ↓</a>
+            <a class="button" href="#vergleich">Dateien vergleichen</a>
+          </div>
+          <p class="hero-note">
+            <strong>Kernidee</strong>
+            <span>
+              Alle Agents arbeiten im selben Projektordner. Gemeinsame Projektinfos bleiben an
+              einer Stelle; jeder Agent erhält nur einen passenden Adapter.
+            </span>
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="wege">
+        <div class="wrap">
+          <p class="section-kicker">01 · Orientierung</p>
+          <h2>Zwei Richtungen, zwei unterschiedliche Wege</h2>
+          <p class="section-intro">
+            Von Claude Code zu Codex gibt es eine offizielle OpenAI-Lösung. In Gegenrichtung ist
+            aktuell ein bewusst aufgebauter Handoff im gemeinsamen Projektordner der pragmatische
+            Weg.
+          </p>
+
+          <div class="route-grid">
+            <article class="route-card official">
+              <span class="pill">● Offizielles Plugin</span>
+              <div class="route">
+                <span>Claude Code</span>
+                <span class="arrow" aria-hidden="true">→</span>
+                <span>Codex</span>
+              </div>
+              <p>
+                OpenAI stellt ein offizielles Plugin bereit, um Aufgaben aus Claude Code an Codex
+                abzugeben. Das ist der direkteste Weg für diese Richtung.
+              </p>
+              <a
+                class="inline-link"
+                href="https://github.com/openai/codex-plugin-cc"
+                target="_blank"
+                rel="noreferrer"
+              >
+                OpenAI-Plugin auf GitHub ↗
+              </a>
+            </article>
+
+            <article class="route-card manual">
+              <span class="pill">● Gemeinsamer Projektkontext</span>
+              <div class="route">
+                <span>Codex</span>
+                <span class="arrow" aria-hidden="true">→</span>
+                <span>Claude Code</span>
+              </div>
+              <p>
+                Für die Gegenrichtung nutzt du den gemeinsamen Projektordner als Übergabepunkt.
+                Bewährt sind die lokale CLI-Übergabe und eine strukturierte
+                <span class="path">HANDOFF.md</span>.
+              </p>
+              <a
+                class="inline-link"
+                href="https://x.com/anshnanda/status/2073206200682827911"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Zusätzliche Informationen auf X ↗
+              </a>
+            </article>
+          </div>
+
+          <aside class="callout">
+            <span class="callout-icon" aria-hidden="true">!</span>
+            <p>
+              <strong>Wichtig:</strong> Community-Repositories können hilfreich sein, sollten aber
+              vor dem Einsatz geprüft werden. Konfigurationen und Skills können Shell-Zugriff,
+              Berechtigungen oder sensible Daten betreffen.
+            </p>
+          </aside>
+
+          <div class="prompt-shell section-prompt">
+            <div class="prompt-head">
+              <div class="prompt-title">
+                <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                Direkte CLI-Übergabe
+              </div>
+              <button class="copy-button" type="button" data-copy-target="cli-handoff">
+                <span aria-hidden="true">⧉</span> Kurzprompt kopieren
+              </button>
+            </div>
+            <pre id="cli-handoff">Nimm die Codex CLI und mach: [Beschreibe hier die Aufgabe und das gewünschte Ergebnis.]</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="vergleich">
+        <div class="wrap">
+          <p class="section-kicker">02 · Dateisystem</p>
+          <h2>Claude Code und Codex im direkten Vergleich</h2>
+          <p class="section-intro">
+            Die Konzepte sind ähnlich, die Dateinamen und Ablageorte unterscheiden sich. Diese
+            Zuordnung zeigt, was beim Übertragen angepasst werden muss.
+          </p>
+
+          <div class="table-shell" role="region" aria-label="Vergleichstabelle" tabindex="0">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Was du brauchst</th>
+                  <th scope="col">Claude Code</th>
+                  <th scope="col">Codex</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Projektanweisungen</td>
+                  <td><span class="path">CLAUDE.md</span></td>
+                  <td><span class="path">AGENTS.md</span></td>
+                </tr>
+                <tr>
+                  <td>Projekt-Konfigurationsordner</td>
+                  <td><span class="path">.claude/</span></td>
+                  <td><span class="path">.codex/</span></td>
+                </tr>
+                <tr>
+                  <td>Ablageort für Skills</td>
+                  <td><span class="path">.claude/skills/&lt;name&gt;/SKILL.md</span></td>
+                  <td><span class="path">.agents/skills/&lt;name&gt;/SKILL.md</span></td>
+                </tr>
+                <tr>
+                  <td>Ablageort für Sub-Agents</td>
+                  <td><span class="path">.claude/agents/&lt;name&gt;.md</span></td>
+                  <td><span class="path">.codex/agents/&lt;name&gt;.toml</span></td>
+                </tr>
+                <tr>
+                  <td>Agent-Dateiformat</td>
+                  <td>Markdown + YAML-Header</td>
+                  <td>TOML</td>
+                </tr>
+                <tr>
+                  <td>Hooks, Berechtigungen, Umgebung</td>
+                  <td><span class="path">.claude/settings.json</span></td>
+                  <td><span class="path">.codex/config.toml</span></td>
+                </tr>
+                <tr>
+                  <td>Persönliche / temporäre Abweichung</td>
+                  <td><span class="path">CLAUDE.local.md</span></td>
+                  <td><span class="path">AGENTS.override.md</span></td>
+                </tr>
+                <tr>
+                  <td>Globale Konfiguration</td>
+                  <td><span class="path">~/.claude/</span></td>
+                  <td><span class="path">~/.codex/</span> + <span class="path">~/.agents/skills/</span></td>
+                </tr>
+                <tr>
+                  <td>Benutzerweite Anweisungen</td>
+                  <td><span class="path">~/.claude/CLAUDE.md</span></td>
+                  <td><span class="path">~/.codex/AGENTS.md</span></td>
+                </tr>
+                <tr>
+                  <td>Anweisungen für Unterordner</td>
+                  <td>Verschachtelte <span class="path">CLAUDE.md</span></td>
+                  <td>Verschachtelte <span class="path">AGENTS.md</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="wrap">
+          <p class="section-kicker">03 · Praxis</p>
+          <h2>Der robuste Handoff-Workflow</h2>
+          <p class="section-intro">
+            Dieser Ablauf funktioniert unabhängig davon, ob der nächste Agent Codex, Claude Code,
+            Kimi, Hermes oder ein anderes lokales Coding-Tool ist.
+          </p>
+
+          <div class="workflow">
+            <article class="step">
+              <div class="step-number">01</div>
+              <div>
+                <h3>Eine gemeinsame Wissensquelle festlegen</h3>
+                <p>
+                  Behalte längere Projektregeln in <span class="path">CLAUDE.md</span>. Lege
+                  <span class="path">AGENTS.md</span> als schlanken Codex-Adapter an, der darauf
+                  verweist, Codex-spezifische Hinweise ergänzt und eine kurze Projektkarte enthält.
+                </p>
+                <div class="mini-code">
+                  AGENTS.md → „Nutze CLAUDE.md als primäre Quelle für Projektwissen.“
+                </div>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">02</div>
+              <div>
+                <h3>Wichtige Skills vollständig übernehmen</h3>
+                <p>
+                  Kopiere benötigte Skill-Ordner aus
+                  <span class="path">.claude/skills/</span> nach
+                  <span class="path">.agents/skills/</span>. Halte jede
+                  <span class="path">SKILL.md</span> zusammen mit ihren Skripten, Referenzen und
+                  Assets.
+                </p>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">03</div>
+              <div>
+                <h3>Sub-Agents ins passende Format übersetzen</h3>
+                <p>
+                  Claude-Agenten liegen als Markdown-Dateien vor; Codex-Agenten als TOML. Übertrage
+                  die eigentlichen Anweisungen gezielt in
+                  <span class="path">developer_instructions</span>, statt Dateien blind umzubenennen.
+                </p>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">04</div>
+              <div>
+                <h3>Bei langem Verlauf eine HANDOFF.md schreiben lassen</h3>
+                <p>
+                  Der aktuelle Agent dokumentiert Ziel, Stand, Fehlversuche und nächste Schritte.
+                  Danach startest du den neuen Agenten im selben Projektordner.
+                </p>
+                <div class="mini-code">
+                  „Lies die HANDOFF.md und arbeite ab dort weiter.“
+                </div>
+              </div>
+            </article>
+
+            <article class="step">
+              <div class="step-number">05</div>
+              <div>
+                <h3>Konfiguration und Geheimnisse trennen</h3>
+                <p>
+                  Beginne mit einer minimalen, sicheren Konfiguration. Tokens, lokale Overrides und
+                  andere sensible Dateien gehören nicht in Git. Aktualisiere
+                  <span class="path">.gitignore</span>, falls nötig.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="prompt">
+        <div class="wrap">
+          <p class="section-kicker">04 · Copy & Paste</p>
+          <h2>Kompletter Prompt für den Codex-Adapter</h2>
+          <p class="section-intro">
+            Diesen Prompt gibst du Claude Code in einem bestehenden Projekt. Er fordert zuerst
+            Transparenz über geplante Änderungen und legt danach die Codex-kompatible Struktur an.
+          </p>
+
+          <div class="prompt-shell">
+            <div class="prompt-head">
+              <div class="prompt-title">
+                <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                prompt-de.txt
+              </div>
+              <button class="copy-button" type="button" data-copy-target="prompt-de">
+                <span aria-hidden="true">⧉</span> Prompt kopieren
+              </button>
+            </div>
+            <pre id="prompt-de">Ich habe dieses Projekt in Claude Code erstellt und möchte, dass es auch in Codex gut funktioniert.
+
+Bitte prüfe das Projekt und erstelle eine Codex-Adapter-Struktur.
+
+Erledige Folgendes:
+
+1. Erstelle im Projektstamm eine AGENTS.md.
+   - Nutze CLAUDE.md als Quelle für das Projektwissen.
+   - Dupliziere lange Abschnitte nicht unnötig.
+   - Erkläre, dass AGENTS.md der Codex-seitige Adapter ist.
+   - Füge eine klare Projektübersicht hinzu.
+
+2. Erstelle .codex/config.toml.
+   - Beginne mit einer minimalen, sicheren Konfiguration.
+   - Füge keine Geheimnisse hinzu.
+
+3. Erstelle .agents/skills/.
+   - Kopiere wichtige Claude-Skills aus .claude/skills/ nach .agents/skills/.
+   - Halte jede SKILL.md und die zugehörigen unterstützenden Dateien zusammen.
+   - Lege Skills nicht in .codex/skills/ ab.
+
+4. Erstelle .codex/agents/ für alle wichtigen Claude-Agenten.
+   - Claude-Agenten sind .md-Dateien in .claude/agents/.
+   - Codex-Agenten sind .toml-Dateien in .codex/agents/.
+   - Übertrage die Agent-Anweisungen in developer_instructions.
+
+5. Aktualisiere .gitignore, falls nötig.
+   - Halte lokale Overrides und Geheimnisse aus Git heraus.
+
+Zeige mir vor dem Bearbeiten, welche Dateien du erstellen oder ändern möchtest.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="handoff-prompt">
+        <div class="wrap">
+          <p class="section-kicker">05 · Wenn ein Chat feststeckt</p>
+          <h2>Prompt für eine saubere HANDOFF.md</h2>
+          <p class="section-intro">
+            Nutze ihn im alten Chat, bevor du den Agenten wechselst. Das Ergebnis wird zur
+            kompakten Übergabedatei für den nächsten Agenten.
+          </p>
+
+          <div class="prompt-shell">
+            <div class="prompt-head">
+              <div class="prompt-title">
+                <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                handoff-prompt.txt
+              </div>
+              <button class="copy-button" type="button" data-copy-target="handoff-text">
+                <span aria-hidden="true">⧉</span> Prompt kopieren
+              </button>
+            </div>
+            <pre id="handoff-text">Schreibe zusammen, was wir bisher gemacht haben, was nicht funktioniert hat und was als Nächstes verbessert werden muss. Speichere alles strukturiert in einer HANDOFF.md.
+
+Die HANDOFF.md soll mindestens enthalten:
+- Ziel und gewünschtes Endergebnis
+- Aktueller Stand
+- Bereits geänderte Dateien
+- Wichtige technische Entscheidungen
+- Fehlversuche und bekannte Probleme
+- Offene Aufgaben in sinnvoller Reihenfolge
+- Befehle zum Starten, Testen und Bauen
+- Hinweise zu lokalen Abhängigkeiten oder benötigten Berechtigungen
+
+Ändere bei dieser Zusammenfassung keine Projektdateien außer HANDOFF.md.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="checkliste">
+        <div class="wrap">
+          <p class="section-kicker">06 · Vor dem Wechsel</p>
+          <h2>Die kurze Übergabe-Checkliste</h2>
+
+          <div class="tips-grid">
+            <article class="tip-card">
+              <span class="label">Kontext</span>
+              <h3>Eine Quelle, mehrere Adapter</h3>
+              <p>
+                Projektwissen nicht doppelt pflegen. Verweise von
+                <span class="path">AGENTS.md</span> auf die zentrale Wissensquelle.
+              </p>
+            </article>
+            <article class="tip-card">
+              <span class="label">Portierung</span>
+              <h3>Struktur statt Dateikopie</h3>
+              <p>
+                Skills mit allen Hilfsdateien kopieren; Agent-Anweisungen in das jeweilige Format
+                übersetzen.
+              </p>
+            </article>
+            <article class="tip-card">
+              <span class="label">Sicherheit</span>
+              <h3>Keine Secrets in Git</h3>
+              <p>
+                Tokens, lokale Einstellungen und temporäre Overrides prüfen, bevor etwas committed
+                wird.
+              </p>
+            </article>
+          </div>
+
+          <ul class="checklist">
+            <li>Neuen Agenten im selben Projektordner starten.</li>
+            <li><span class="path">CLAUDE.md</span> und <span class="path">AGENTS.md</span> sind konsistent.</li>
+            <li><span class="path">HANDOFF.md</span> beschreibt Stand und nächste Schritte.</li>
+            <li>Wichtige Skills enthalten ihre Skripte, Referenzen und Assets.</li>
+            <li>Lokale Konfiguration und Geheimnisse sind ignoriert.</li>
+            <li>Start-, Test- und Build-Befehle sind dokumentiert.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <span>Claude Code ↔ Codex · Lokale Lernressource</span>
+        <a href="#top">Nach oben ↑</a>
+      </div>
+    </footer>
+
+    <div class="status" id="copy-status" role="status" aria-live="polite">In Zwischenablage kopiert</div>
+
+    <script>
+      (() => {
+        const status = document.querySelector("#copy-status");
+        let statusTimer;
+
+        async function copyText(text) {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return;
+          }
+
+          const helper = document.createElement("textarea");
+          helper.value = text;
+          helper.setAttribute("readonly", "");
+          helper.style.position = "fixed";
+          helper.style.opacity = "0";
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand("copy");
+          helper.remove();
+        }
+
+        function showStatus(message, failed = false) {
+          window.clearTimeout(statusTimer);
+          status.textContent = message;
+          status.style.borderColor = failed ? "rgb(255 140 140 / 45%)" : "";
+          status.style.background = failed ? "#261515" : "";
+          status.style.color = failed ? "var(--danger)" : "";
+          status.classList.add("show");
+          statusTimer = window.setTimeout(() => status.classList.remove("show"), 2200);
+        }
+
+        document.querySelectorAll("[data-copy-target]").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const target = document.getElementById(button.dataset.copyTarget);
+            if (!target) return;
+
+            try {
+              await copyText(target.textContent.trim());
+              showStatus("In Zwischenablage kopiert");
+            } catch {
+              showStatus("Kopieren nicht möglich", true);
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
