@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,9 +7,9 @@
     <meta name="theme-color" content="#080b10" />
     <meta
       name="description"
-      content="Praxisleitfaden: Projekte und Aufgaben zwischen Claude Code, Codex und anderen Coding-Agents übergeben."
+      content="A practical guide to handing off projects and tasks between Claude Code, Codex, and other coding agents."
     />
-    <title>Claude Code ↔ Codex — Übergabe-Leitfaden</title>
+    <title>Claude Code ↔ Codex | Handoff guide</title>
     <style>
       :root {
         color-scheme: dark;
@@ -884,7 +884,7 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+    <a class="skip-link" href="#inhalt">Skip to content</a>
 
     <header class="topbar">
       <div class="topbar-inner">
@@ -892,12 +892,12 @@
           <span class="brand-mark" aria-hidden="true">↔</span>
           Agent Handoff Guide
         </a>
-        <nav class="nav" aria-label="Hauptnavigation">
-          <a href="#wege">Die zwei Wege</a>
-          <a href="#vergleich">Vergleich</a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#wege">Two approaches</a>
+          <a href="#vergleich">Comparison</a>
           <a href="#workflow">Workflow</a>
           <a href="#prompt">Prompt</a>
-          <a href="#checkliste">Checkliste</a>
+          <a href="#checkliste">Checklist</a>
         </nav>
       </div>
     </header>
@@ -905,21 +905,19 @@
     <main id="inhalt">
       <section class="hero" id="top">
         <div class="wrap">
-          <div class="eyebrow">Praxisleitfaden · Claude Code & Codex</div>
-          <h1>Aufgaben sauber <span class="gradient">übergeben.</span></h1>
+          <div class="eyebrow">Practical guide · Claude Code & Codex</div>
+          <h1>Hand off tasks <span class="gradient">cleanly.</span></h1>
           <p class="hero-lead">
-            So wechselst du in einem laufenden Projekt zwischen Claude Code, Codex und anderen
-            Coding-Agents — ohne Kontextverlust, doppelte Regeln oder chaotische Konfiguration.
+            Switch between Claude Code, Codex, and other coding agents in an ongoing project while keeping your context, rules, and configuration in order.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#prompt">Adapter-Prompt kopieren ↓</a>
-            <a class="button" href="#vergleich">Dateien vergleichen</a>
+            <a class="button primary" href="#prompt">Copy the adapter prompt ↓</a>
+            <a class="button" href="#vergleich">Compare files</a>
           </div>
           <p class="hero-note">
-            <strong>Kernidee</strong>
+            <strong>Core idea</strong>
             <span>
-              Alle Agents arbeiten im selben Projektordner. Gemeinsame Projektinfos bleiben an
-              einer Stelle; jeder Agent erhält nur einen passenden Adapter.
+              All agents work in the same project folder. Shared project knowledge stays in one place; each agent gets an adapter tailored to its needs.
             </span>
           </p>
         </div>
@@ -927,25 +925,22 @@
 
       <section class="section" id="wege">
         <div class="wrap">
-          <p class="section-kicker">01 · Orientierung</p>
-          <h2>Zwei Richtungen, zwei unterschiedliche Wege</h2>
+          <p class="section-kicker">01 · Overview</p>
+          <h2>Two directions, two different approaches</h2>
           <p class="section-intro">
-            Von Claude Code zu Codex gibt es eine offizielle OpenAI-Lösung. In Gegenrichtung ist
-            aktuell ein bewusst aufgebauter Handoff im gemeinsamen Projektordner der pragmatische
-            Weg.
+            There is an official OpenAI solution for going from Claude Code to Codex. For the reverse direction, a structured handoff in the shared project folder is a practical approach.
           </p>
 
           <div class="route-grid">
             <article class="route-card official">
-              <span class="pill">● Offizielles Plugin</span>
+              <span class="pill">● Official plugin</span>
               <div class="route">
                 <span>Claude Code</span>
                 <span class="arrow" aria-hidden="true">→</span>
                 <span>Codex</span>
               </div>
               <p>
-                OpenAI stellt ein offizielles Plugin bereit, um Aufgaben aus Claude Code an Codex
-                abzugeben. Das ist der direkteste Weg für diese Richtung.
+                OpenAI provides an official plugin for handing off tasks from Claude Code to Codex. It is the most direct route in this direction.
               </p>
               <a
                 class="inline-link"
@@ -953,21 +948,19 @@
                 target="_blank"
                 rel="noreferrer"
               >
-                OpenAI-Plugin auf GitHub ↗
+                OpenAI plugin on GitHub ↗
               </a>
             </article>
 
             <article class="route-card manual">
-              <span class="pill">● Gemeinsamer Projektkontext</span>
+              <span class="pill">● Shared project context</span>
               <div class="route">
                 <span>Codex</span>
                 <span class="arrow" aria-hidden="true">→</span>
                 <span>Claude Code</span>
               </div>
               <p>
-                Für die Gegenrichtung nutzt du den gemeinsamen Projektordner als Übergabepunkt.
-                Bewährt sind die lokale CLI-Übergabe und eine strukturierte
-                <span class="path">HANDOFF.md</span>.
+                For the reverse direction, use the shared project folder as the handoff point. A local CLI handoff and a structured <span class="path">HANDOFF.md</span> are useful options.
               </p>
               <a
                 class="inline-link"
@@ -975,7 +968,7 @@
                 target="_blank"
                 rel="noreferrer"
               >
-                Zusätzliche Informationen auf X ↗
+                More information on X ↗
               </a>
             </article>
           </div>
@@ -983,9 +976,7 @@
           <aside class="callout">
             <span class="callout-icon" aria-hidden="true">!</span>
             <p>
-              <strong>Wichtig:</strong> Community-Repositories können hilfreich sein, sollten aber
-              vor dem Einsatz geprüft werden. Konfigurationen und Skills können Shell-Zugriff,
-              Berechtigungen oder sensible Daten betreffen.
+              <strong>Important:</strong> Community repositories can be useful, but review them before use. Configurations and skills may involve shell access, permissions, or sensitive data.
             </p>
           </aside>
 
@@ -993,85 +984,84 @@
             <div class="prompt-head">
               <div class="prompt-title">
                 <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                Direkte CLI-Übergabe
+                Direct CLI handoff
               </div>
               <button class="copy-button" type="button" data-copy-target="cli-handoff">
-                <span aria-hidden="true">⧉</span> Kurzprompt kopieren
+                <span aria-hidden="true">⧉</span> Copy short prompt
               </button>
             </div>
-            <pre id="cli-handoff">Nimm die Codex CLI und mach: [Beschreibe hier die Aufgabe und das gewünschte Ergebnis.]</pre>
+            <pre id="cli-handoff">Use the Codex CLI to do the following: [Describe the task and the desired outcome here.]</pre>
           </div>
         </div>
       </section>
 
       <section class="section" id="vergleich">
         <div class="wrap">
-          <p class="section-kicker">02 · Dateisystem</p>
-          <h2>Claude Code und Codex im direkten Vergleich</h2>
+          <p class="section-kicker">02 · File system</p>
+          <h2>Claude Code and Codex side by side</h2>
           <p class="section-intro">
-            Die Konzepte sind ähnlich, die Dateinamen und Ablageorte unterscheiden sich. Diese
-            Zuordnung zeigt, was beim Übertragen angepasst werden muss.
+            The concepts are similar, but file names and locations differ. This comparison shows what needs to change when moving between tools.
           </p>
 
-          <div class="table-shell" role="region" aria-label="Vergleichstabelle" tabindex="0">
+          <div class="table-shell" role="region" aria-label="Comparison table" tabindex="0">
             <table>
               <thead>
                 <tr>
-                  <th scope="col">Was du brauchst</th>
+                  <th scope="col">What you need</th>
                   <th scope="col">Claude Code</th>
                   <th scope="col">Codex</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Projektanweisungen</td>
+                  <td>Project instructions</td>
                   <td><span class="path">CLAUDE.md</span></td>
                   <td><span class="path">AGENTS.md</span></td>
                 </tr>
                 <tr>
-                  <td>Projekt-Konfigurationsordner</td>
+                  <td>Project configuration folder</td>
                   <td><span class="path">.claude/</span></td>
                   <td><span class="path">.codex/</span></td>
                 </tr>
                 <tr>
-                  <td>Ablageort für Skills</td>
+                  <td>Skill location</td>
                   <td><span class="path">.claude/skills/&lt;name&gt;/SKILL.md</span></td>
                   <td><span class="path">.agents/skills/&lt;name&gt;/SKILL.md</span></td>
                 </tr>
                 <tr>
-                  <td>Ablageort für Sub-Agents</td>
+                  <td>Subagent location</td>
                   <td><span class="path">.claude/agents/&lt;name&gt;.md</span></td>
                   <td><span class="path">.codex/agents/&lt;name&gt;.toml</span></td>
                 </tr>
                 <tr>
-                  <td>Agent-Dateiformat</td>
-                  <td>Markdown + YAML-Header</td>
+                  <td>Agent file format</td>
+                  <td>Markdown + YAML front matter</td>
                   <td>TOML</td>
                 </tr>
                 <tr>
-                  <td>Hooks, Berechtigungen, Umgebung</td>
+                  <td>Hooks, permissions, environment</td>
                   <td><span class="path">.claude/settings.json</span></td>
                   <td><span class="path">.codex/config.toml</span></td>
                 </tr>
                 <tr>
-                  <td>Persönliche / temporäre Abweichung</td>
+                  <td>Personal / temporary override</td>
                   <td><span class="path">CLAUDE.local.md</span></td>
                   <td><span class="path">AGENTS.override.md</span></td>
                 </tr>
                 <tr>
-                  <td>Globale Konfiguration</td>
+                  <td>Global configuration</td>
                   <td><span class="path">~/.claude/</span></td>
                   <td><span class="path">~/.codex/</span> + <span class="path">~/.agents/skills/</span></td>
                 </tr>
                 <tr>
-                  <td>Benutzerweite Anweisungen</td>
+                  <td>User-wide instructions</td>
                   <td><span class="path">~/.claude/CLAUDE.md</span></td>
                   <td><span class="path">~/.codex/AGENTS.md</span></td>
                 </tr>
                 <tr>
-                  <td>Anweisungen für Unterordner</td>
-                  <td>Verschachtelte <span class="path">CLAUDE.md</span></td>
-                  <td>Verschachtelte <span class="path">AGENTS.md</span></td>
+                  <td>Instructions for subfolders</td>
+                  <td>Nested <span class="path">CLAUDE.md</span></td>
+                  <td>Nested <span class="path">AGENTS.md</span></td>
                 </tr>
               </tbody>
             </table>
@@ -1081,25 +1071,22 @@
 
       <section class="section" id="workflow">
         <div class="wrap">
-          <p class="section-kicker">03 · Praxis</p>
-          <h2>Der robuste Handoff-Workflow</h2>
+          <p class="section-kicker">03 · In practice</p>
+          <h2>A reliable handoff workflow</h2>
           <p class="section-intro">
-            Dieser Ablauf funktioniert unabhängig davon, ob der nächste Agent Codex, Claude Code,
-            Kimi, Hermes oder ein anderes lokales Coding-Tool ist.
+            This workflow works whether the next agent is Codex, Claude Code, Kimi, Hermes, or another local coding tool.
           </p>
 
           <div class="workflow">
             <article class="step">
               <div class="step-number">01</div>
               <div>
-                <h3>Eine gemeinsame Wissensquelle festlegen</h3>
+                <h3>Choose one shared source of project knowledge</h3>
                 <p>
-                  Behalte längere Projektregeln in <span class="path">CLAUDE.md</span>. Lege
-                  <span class="path">AGENTS.md</span> als schlanken Codex-Adapter an, der darauf
-                  verweist, Codex-spezifische Hinweise ergänzt und eine kurze Projektkarte enthält.
+                  Keep detailed project rules in <span class="path">CLAUDE.md</span>. Create <span class="path">AGENTS.md</span> as a small Codex adapter that points to it, adds Codex-specific guidance, and includes a brief project overview.
                 </p>
                 <div class="mini-code">
-                  AGENTS.md → „Nutze CLAUDE.md als primäre Quelle für Projektwissen.“
+                  AGENTS.md → "Use CLAUDE.md as the primary source of project knowledge."
                 </div>
               </div>
             </article>
@@ -1107,13 +1094,9 @@
             <article class="step">
               <div class="step-number">02</div>
               <div>
-                <h3>Wichtige Skills vollständig übernehmen</h3>
+                <h3>Copy important skills with all supporting files</h3>
                 <p>
-                  Kopiere benötigte Skill-Ordner aus
-                  <span class="path">.claude/skills/</span> nach
-                  <span class="path">.agents/skills/</span>. Halte jede
-                  <span class="path">SKILL.md</span> zusammen mit ihren Skripten, Referenzen und
-                  Assets.
+                  Copy the skill folders you need from <span class="path">.claude/skills/</span> to <span class="path">.agents/skills/</span>. Keep each <span class="path">SKILL.md</span> together with its scripts, references, and assets.
                 </p>
               </div>
             </article>
@@ -1121,11 +1104,9 @@
             <article class="step">
               <div class="step-number">03</div>
               <div>
-                <h3>Sub-Agents ins passende Format übersetzen</h3>
+                <h3>Convert subagents to the right format</h3>
                 <p>
-                  Claude-Agenten liegen als Markdown-Dateien vor; Codex-Agenten als TOML. Übertrage
-                  die eigentlichen Anweisungen gezielt in
-                  <span class="path">developer_instructions</span>, statt Dateien blind umzubenennen.
+                  Claude agents use Markdown files; Codex agents use TOML. Transfer the actual instructions into <span class="path">developer_instructions</span> rather than simply renaming files.
                 </p>
               </div>
             </article>
@@ -1133,13 +1114,12 @@
             <article class="step">
               <div class="step-number">04</div>
               <div>
-                <h3>Bei langem Verlauf eine HANDOFF.md schreiben lassen</h3>
+                <h3>Have the agent write a HANDOFF.md for long conversations</h3>
                 <p>
-                  Der aktuelle Agent dokumentiert Ziel, Stand, Fehlversuche und nächste Schritte.
-                  Danach startest du den neuen Agenten im selben Projektordner.
+                  The current agent documents the goal, progress, failed attempts, and next steps. Then start the new agent in the same project folder.
                 </p>
                 <div class="mini-code">
-                  „Lies die HANDOFF.md und arbeite ab dort weiter.“
+                  "Read HANDOFF.md and continue from there."
                 </div>
               </div>
             </article>
@@ -1147,11 +1127,9 @@
             <article class="step">
               <div class="step-number">05</div>
               <div>
-                <h3>Konfiguration und Geheimnisse trennen</h3>
+                <h3>Keep configuration and secrets separate</h3>
                 <p>
-                  Beginne mit einer minimalen, sicheren Konfiguration. Tokens, lokale Overrides und
-                  andere sensible Dateien gehören nicht in Git. Aktualisiere
-                  <span class="path">.gitignore</span>, falls nötig.
+                  Start with a minimal, secure configuration. Keep tokens, local overrides, and other sensitive files out of Git. Update <span class="path">.gitignore</span> if needed.
                 </p>
               </div>
             </article>
@@ -1162,63 +1140,61 @@
       <section class="section" id="prompt">
         <div class="wrap">
           <p class="section-kicker">04 · Copy & Paste</p>
-          <h2>Kompletter Prompt für den Codex-Adapter</h2>
+          <h2>Complete prompt for the Codex adapter</h2>
           <p class="section-intro">
-            Diesen Prompt gibst du Claude Code in einem bestehenden Projekt. Er fordert zuerst
-            Transparenz über geplante Änderungen und legt danach die Codex-kompatible Struktur an.
+            Give this prompt to Claude Code in an existing project. It asks the agent to explain the planned changes first, then create a Codex-compatible structure.
           </p>
 
           <div class="prompt-shell">
             <div class="prompt-head">
               <div class="prompt-title">
                 <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                prompt-de.txt
+                prompt-en.txt
               </div>
-              <button class="copy-button" type="button" data-copy-target="prompt-de">
-                <span aria-hidden="true">⧉</span> Prompt kopieren
+              <button class="copy-button" type="button" data-copy-target="prompt-en">
+                <span aria-hidden="true">⧉</span> Copy prompt
               </button>
             </div>
-            <pre id="prompt-de">Ich habe dieses Projekt in Claude Code erstellt und möchte, dass es auch in Codex gut funktioniert.
+            <pre id="prompt-en">I created this project in Claude Code and want it to work well in Codex too.
 
-Bitte prüfe das Projekt und erstelle eine Codex-Adapter-Struktur.
+Please review the project and create a Codex adapter structure.
 
-Erledige Folgendes:
+Do the following:
 
-1. Erstelle im Projektstamm eine AGENTS.md.
-   - Nutze CLAUDE.md als Quelle für das Projektwissen.
-   - Dupliziere lange Abschnitte nicht unnötig.
-   - Erkläre, dass AGENTS.md der Codex-seitige Adapter ist.
-   - Füge eine klare Projektübersicht hinzu.
+1. Create an AGENTS.md in the project root.
+   - Use CLAUDE.md as the source of project knowledge.
+   - Avoid unnecessarily duplicating long sections.
+   - Explain that AGENTS.md is the Codex-side adapter.
+   - Add a clear project overview.
 
-2. Erstelle .codex/config.toml.
-   - Beginne mit einer minimalen, sicheren Konfiguration.
-   - Füge keine Geheimnisse hinzu.
+2. Create .codex/config.toml.
+   - Start with a minimal, secure configuration.
+   - Do not add any secrets.
 
-3. Erstelle .agents/skills/.
-   - Kopiere wichtige Claude-Skills aus .claude/skills/ nach .agents/skills/.
-   - Halte jede SKILL.md und die zugehörigen unterstützenden Dateien zusammen.
-   - Lege Skills nicht in .codex/skills/ ab.
+3. Create .agents/skills/.
+   - Copy important Claude skills from .claude/skills/ to .agents/skills/.
+   - Keep each SKILL.md together with its supporting files.
+   - Do not put skills in .codex/skills/.
 
-4. Erstelle .codex/agents/ für alle wichtigen Claude-Agenten.
-   - Claude-Agenten sind .md-Dateien in .claude/agents/.
-   - Codex-Agenten sind .toml-Dateien in .codex/agents/.
-   - Übertrage die Agent-Anweisungen in developer_instructions.
+4. Create .codex/agents/ for all important Claude agents.
+   - Claude agents are .md files in .claude/agents/.
+   - Codex agents are .toml files in .codex/agents/.
+   - Transfer the agent instructions into developer_instructions.
 
-5. Aktualisiere .gitignore, falls nötig.
-   - Halte lokale Overrides und Geheimnisse aus Git heraus.
+5. Update .gitignore if needed.
+   - Keep local overrides and secrets out of Git.
 
-Zeige mir vor dem Bearbeiten, welche Dateien du erstellen oder ändern möchtest.</pre>
+Before editing, show me which files you plan to create or change.</pre>
           </div>
         </div>
       </section>
 
       <section class="section" id="handoff-prompt">
         <div class="wrap">
-          <p class="section-kicker">05 · Wenn ein Chat feststeckt</p>
-          <h2>Prompt für eine saubere HANDOFF.md</h2>
+          <p class="section-kicker">05 · When a chat gets stuck</p>
+          <h2>Prompt for a clear HANDOFF.md</h2>
           <p class="section-intro">
-            Nutze ihn im alten Chat, bevor du den Agenten wechselst. Das Ergebnis wird zur
-            kompakten Übergabedatei für den nächsten Agenten.
+            Use this in the old chat before switching agents. The result becomes a concise handoff file for the next agent.
           </p>
 
           <div class="prompt-shell">
@@ -1228,65 +1204,62 @@ Zeige mir vor dem Bearbeiten, welche Dateien du erstellen oder ändern möchtest
                 handoff-prompt.txt
               </div>
               <button class="copy-button" type="button" data-copy-target="handoff-text">
-                <span aria-hidden="true">⧉</span> Prompt kopieren
+                <span aria-hidden="true">⧉</span> Copy prompt
               </button>
             </div>
-            <pre id="handoff-text">Schreibe zusammen, was wir bisher gemacht haben, was nicht funktioniert hat und was als Nächstes verbessert werden muss. Speichere alles strukturiert in einer HANDOFF.md.
+            <pre id="handoff-text">Summarize what we have done so far, what did not work, and what needs to improve next. Save everything in a structured HANDOFF.md.
 
-Die HANDOFF.md soll mindestens enthalten:
-- Ziel und gewünschtes Endergebnis
-- Aktueller Stand
-- Bereits geänderte Dateien
-- Wichtige technische Entscheidungen
-- Fehlversuche und bekannte Probleme
-- Offene Aufgaben in sinnvoller Reihenfolge
-- Befehle zum Starten, Testen und Bauen
-- Hinweise zu lokalen Abhängigkeiten oder benötigten Berechtigungen
+HANDOFF.md should include at least:
+- The goal and desired outcome
+- Current progress
+- Files already changed
+- Important technical decisions
+- Failed attempts and known issues
+- Remaining tasks in a sensible order
+- Commands to start, test, and build the project
+- Notes on local dependencies or required permissions
 
-Ändere bei dieser Zusammenfassung keine Projektdateien außer HANDOFF.md.</pre>
+When writing this summary, do not change any project files other than HANDOFF.md.</pre>
           </div>
         </div>
       </section>
 
       <section class="section" id="checkliste">
         <div class="wrap">
-          <p class="section-kicker">06 · Vor dem Wechsel</p>
-          <h2>Die kurze Übergabe-Checkliste</h2>
+          <p class="section-kicker">06 · Before switching</p>
+          <h2>The short handoff checklist</h2>
 
           <div class="tips-grid">
             <article class="tip-card">
-              <span class="label">Kontext</span>
-              <h3>Eine Quelle, mehrere Adapter</h3>
+              <span class="label">Context</span>
+              <h3>One source, multiple adapters</h3>
               <p>
-                Projektwissen nicht doppelt pflegen. Verweise von
-                <span class="path">AGENTS.md</span> auf die zentrale Wissensquelle.
+                Keep project knowledge in one place. Point <span class="path">AGENTS.md</span> to the central source.
               </p>
             </article>
             <article class="tip-card">
-              <span class="label">Portierung</span>
-              <h3>Struktur statt Dateikopie</h3>
+              <span class="label">Porting</span>
+              <h3>Adapt the structure, not just the files</h3>
               <p>
-                Skills mit allen Hilfsdateien kopieren; Agent-Anweisungen in das jeweilige Format
-                übersetzen.
+                Copy skills with all their supporting files; convert agent instructions to the appropriate format.
               </p>
             </article>
             <article class="tip-card">
-              <span class="label">Sicherheit</span>
-              <h3>Keine Secrets in Git</h3>
+              <span class="label">Security</span>
+              <h3>Keep secrets out of Git</h3>
               <p>
-                Tokens, lokale Einstellungen und temporäre Overrides prüfen, bevor etwas committed
-                wird.
+                Review tokens, local settings, and temporary overrides before committing anything.
               </p>
             </article>
           </div>
 
           <ul class="checklist">
-            <li>Neuen Agenten im selben Projektordner starten.</li>
-            <li><span class="path">CLAUDE.md</span> und <span class="path">AGENTS.md</span> sind konsistent.</li>
-            <li><span class="path">HANDOFF.md</span> beschreibt Stand und nächste Schritte.</li>
-            <li>Wichtige Skills enthalten ihre Skripte, Referenzen und Assets.</li>
-            <li>Lokale Konfiguration und Geheimnisse sind ignoriert.</li>
-            <li>Start-, Test- und Build-Befehle sind dokumentiert.</li>
+            <li>Start the new agent in the same project folder.</li>
+            <li><span class="path">CLAUDE.md</span> and <span class="path">AGENTS.md</span> are consistent.</li>
+            <li><span class="path">HANDOFF.md</span> describes progress and next steps.</li>
+            <li>Important skills include their scripts, references, and assets.</li>
+            <li>Local configuration and secrets are ignored by Git.</li>
+            <li>Start, test, and build commands are documented.</li>
           </ul>
         </div>
       </section>
@@ -1295,12 +1268,12 @@ Die HANDOFF.md soll mindestens enthalten:
 
     <footer>
       <div class="wrap footer-inner">
-        <span>Claude Code ↔ Codex · Lokale Lernressource</span>
-        <a href="#top">Nach oben ↑</a>
+        <span>Claude Code ↔ Codex · Learning resource</span>
+        <a href="#top">Back to top ↑</a>
       </div>
     </footer>
 
-    <div class="status" id="copy-status" role="status" aria-live="polite">In Zwischenablage kopiert</div>
+    <div class="status" id="copy-status" role="status" aria-live="polite">Copied to clipboard</div>
 
     <script>
       (() => {
@@ -1341,9 +1314,9 @@ Die HANDOFF.md soll mindestens enthalten:
 
             try {
               await copyText(target.textContent.trim());
-              showStatus("In Zwischenablage kopiert");
+              showStatus("Copied to clipboard");
             } catch {
-              showStatus("Kopieren nicht möglich", true);
+              showStatus("Could not copy", true);
             }
           });
         });
